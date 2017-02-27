@@ -18,6 +18,7 @@ public class SimpleAveragePredictor implements Predictor
 	/**
 	 * constructor - creates a new SimpleAveragePredictor object
 	 */
+	//TODO need to implement more predictors
 	public SimpleAveragePredictor()
 	{
 	}
