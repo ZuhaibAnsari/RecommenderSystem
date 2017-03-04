@@ -26,6 +26,7 @@ public class PearsonMetricWithSignificanceWeighting implements SimilarityMetric
 	 * computes the similarity between profiles
 	 * @param profile 1 
 	 * @param profile 2
+	 * @return the similarity value
 	 */
 	public double getSimilarity(final Profile p1, final Profile p2)
 	{

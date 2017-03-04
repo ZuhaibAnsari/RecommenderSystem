@@ -50,4 +50,5 @@ public class PearsonMetric implements SimilarityMetric
 		double below = (common.size() > 0) ? Math.sqrt( (sum_r1_sq - (sum_r1 * sum_r1) / common.size()) * (sum_r2_sq - (sum_r2 * sum_r2) / common.size()) ) : 0;
 		return (below > 0) ? above / below : 0;
 	}
+		
 }

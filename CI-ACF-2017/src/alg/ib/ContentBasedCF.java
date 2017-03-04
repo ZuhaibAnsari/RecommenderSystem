@@ -31,7 +31,7 @@ public class ContentBasedCF implements CFAlgorithm
 		this.predictor = predictor;
 		this.neighbourhood = neighbourhood;
 		this.reader = reader;
-		// passing the item genome scores to find the cosine similarity
+		// passing the item genome scores to find the cosine similarity .. Hoping this to be the magical line of code which Michael mentioned
 		this.simMap = new SimilarityMap(reader.getItemGenomeScores(), metric);
 		this.neighbourhood.computeNeighbourhoods(simMap); // compute the neighbourhoods for all items
 	}

@@ -5,7 +5,7 @@ import alg.ib.neighbourhood.NearestNeighbourhoodWithSimilarityThresholding;
 import alg.ib.neighbourhood.Neighbourhood;
 import alg.ib.predictor.ContentBasedCosinePredictor;
 import alg.ib.predictor.Predictor;
-import similarity.metric.CosineSimilarityMetricForContentBased;
+import similarity.metric.CosineSimilarityMetric;
 import similarity.metric.SimilarityMetric;
 import util.evaluator.Evaluator;
 import util.reader.DatasetReader;
@@ -16,6 +16,9 @@ import util.reader.DatasetReader;
  *
  */
 public class ExecuteIB_ML20M_ContentBasedCF {
+	private static final String CONTENT_BASED_WITH_RATINGS_GREATER_THAN_4 = "Content_Based_With_Ratings_GreaterThan_4";
+	private static final String CONTENT_BASED = "Content_Based";
+
 	public static void main(String[] args)
 	{
 		// set the paths and filenames of the item file, genome scores file,
@@ -26,14 +29,14 @@ public class ExecuteIB_ML20M_ContentBasedCF {
 		String testFile = Constants.TEST_FILE_NAME;
 
 		// set the path and filename of the output file ...
-		String outputFile = Constants.OUTPUT_FILE_NAME;
+		String outputFile = Constants.OUTPUT_FILE_PATH+CONTENT_BASED+Constants.OUTPUT_FILE_EXTENSION;
 		
 		//Calculating the prediction and accuracy when the ratings are greater than 4 , the last parameter in the method call
 		// is set to true which specifies if the ratings greater than 4 are only to be considered
 		generateContentBasedPredictionsAndCalculateAccuracy(itemFile, itemGenomeScoresFile, trainFile, testFile, outputFile,true);		
 	
 		//Generating a new prediction file for the results where ratings are not bounded by a rating cap of 4
-		outputFile=Constants.OUTPUT_FILE_PATH+"prediction_2.txt";
+		outputFile=Constants.OUTPUT_FILE_PATH+CONTENT_BASED_WITH_RATINGS_GREATER_THAN_4+Constants.OUTPUT_FILE_EXTENSION;
 		generateContentBasedPredictionsAndCalculateAccuracy(itemFile, itemGenomeScoresFile, trainFile, testFile, outputFile,false);		
 
 	}
@@ -55,9 +58,9 @@ public class ExecuteIB_ML20M_ContentBasedCF {
 		Predictor predictor = new ContentBasedCosinePredictor(isRatingGreaterThanFour);
 		
 		//Setting the threshold to 10000 so that similarity thresholding doesnt have any effect on it
-		Neighbourhood neighbourhood = new NearestNeighbourhoodWithSimilarityThresholding(10000);
+		Neighbourhood neighbourhood = new NearestNeighbourhoodWithSimilarityThresholding(0);
 		
-		SimilarityMetric metric = new CosineSimilarityMetricForContentBased();
+		SimilarityMetric metric = new CosineSimilarityMetric();
 		
 		////////////////////////////////////////////////
 		// Evaluates the CF algorithm (do not change!!):

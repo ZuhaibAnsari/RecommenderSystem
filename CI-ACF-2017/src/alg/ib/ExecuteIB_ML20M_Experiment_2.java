@@ -4,17 +4,21 @@ import alg.constants.Constants;
 import alg.ib.neighbourhood.NearestNeighbourhoodWithSimilarityThresholding;
 import alg.ib.neighbourhood.Neighbourhood;
 import alg.ib.predictor.DeviationsFromMeanPredictor;
-import alg.ib.predictor.NonPersonalisedPredictor;
 import alg.ib.predictor.Predictor;
-import alg.ib.predictor.SimpleAveragePredictor;
-import alg.ib.predictor.WeightedAveragePredictor;
 import similarity.metric.CosineSimilarityMetric;
 import similarity.metric.SimilarityMetric;
 import util.evaluator.Evaluator;
 import util.reader.DatasetReader;
 
-public class ExecuteIB_ML20M_Experiment2 {
+/**
+ * This class is used to run the tasks for experiment 2
+ * @author Zuhaib
+ *
+ */
+public class ExecuteIB_ML20M_Experiment_2 {
 	
+	private static final String DEVIATIONS_FROM_MEAN_USING_NEIGHBOURHOOD_THRESHOLDING = "Deviations_From_Mean_Using_Neighbourhood_Thresholding";
+
 	public static void main(String[] args) {
 
 		// set the paths and filenames of the item file, genome scores file,
@@ -25,24 +29,31 @@ public class ExecuteIB_ML20M_Experiment2 {
 		String testFile = Constants.TEST_FILE_NAME;
 
 		// set the path and filename of the output file ...
-		String outputFile = Constants.OUTPUT_FILE_NAME;
+		String  outputFile = Constants.OUTPUT_FILE_PATH+DEVIATIONS_FROM_MEAN_USING_NEIGHBOURHOOD_THRESHOLDING+Constants.OUTPUT_FILE_EXTENSION;
 
 		//Generate predictions using deviation from mean and neighbor similarity thresholding
-		generatePredictionAndCalculateRMSE(itemFile, itemGenomeScoresFile, trainFile, testFile, outputFile,
-				Constants.DEVIATION_FROM_MEAN);
+		generatePredictionAndCalculateRMSE(itemFile, itemGenomeScoresFile, trainFile, testFile, outputFile);
 
 	}
 
 	/**
+	 * This is the method which takes in all the input parameters and calcualtes the predicted rating using
+	 * similarity thresholding using Deviations from Item mean predictor
+	 * 
 	 * @param itemFile
+	 *            is the file containing the details of the items
 	 * @param itemGenomeScoresFile
+	 *            is the file with details of the genome scores
 	 * @param trainFile
+	 *            is the file with training data
 	 * @param testFile
+	 *            is the file with test data
 	 * @param outputFile
+	 *            is the file where the output will be stored for each execution
 	 */
 	private static void generatePredictionAndCalculateRMSE(String itemFile, String itemGenomeScoresFile,
-			String trainFile, String testFile, String outputFile, String predictorType) {
-		System.out.println("########################### Calculating Prediction using "+predictorType+" ##########################");
+			String trainFile, String testFile, String outputFile) {
+		System.out.println("########################### Calculating Prediction using Deviations from Item Mean with Similarity Thresholding ##########################");
 		
 		//Setting the similarity thresholds from 0 till 0.8 in steps of 0.05
 		for (double similarityThresholdValue = 0; similarityThresholdValue <= 0.85; similarityThresholdValue += 0.05) {
@@ -50,21 +61,8 @@ public class ExecuteIB_ML20M_Experiment2 {
 			// configure the content-based CF algorithm - set the predictor,
 			// neighbourhood and similarity metric ...
 			
-			//choosing the predictor based on the value of predictor type
-			Predictor predictor=null;
-			if (Constants.SIMPLE_AVERAGE.equals(predictorType)) {
-				predictor = new SimpleAveragePredictor();
-
-			} else if (Constants.WEIGHTED_AVERAGE.equals(predictorType)) {
-				predictor = new WeightedAveragePredictor();
-
-			} else if (Constants.NON_PERSONALISED.equals(predictorType)) {
-				predictor = new NonPersonalisedPredictor();
-
-			} else if (Constants.DEVIATION_FROM_MEAN.equals(predictorType)) {
-				predictor = new DeviationsFromMeanPredictor();
-
-			}
+			//choosing the predictor
+			Predictor predictor= new DeviationsFromMeanPredictor();
 			
 			SimilarityMetric metric = new CosineSimilarityMetric();
 			// Setting the neighbours using the similarity threshold value
@@ -90,7 +88,7 @@ public class ExecuteIB_ML20M_Experiment2 {
 			double coverage = eval.getCoverage();
 			System.out.printf("coverage: %.2f%%\n", coverage);
 		}
-		System.out.println("########################### End of Prediction using "+predictorType+" ##########################");
+		System.out.println("########################### End of Prediction using Deviations from Item Mean using Similarity Thresholding ##########################");
 		
 	}
 }

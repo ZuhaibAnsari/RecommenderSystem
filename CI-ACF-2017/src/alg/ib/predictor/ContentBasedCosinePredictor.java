@@ -7,7 +7,7 @@ import profile.Profile;
 import similarity.SimilarityMap;
 
 /**
- * The class to compute the cosine based predictions
+ * The class to compute the content based predictions
  * 
  * @author Zuhaib
  *
@@ -54,7 +54,7 @@ public class ContentBasedCosinePredictor implements Predictor {
 		double similarityWeightSum = 0;
 		
 		//This is the count of the movies which are rated by the user
-		double setofMoviesRatedbyUser = 0;
+		double countofMoviesRatedbyUser = 0;
 		double similarityWeight = 0;
 		
 		//Iterate over the target users items
@@ -63,19 +63,19 @@ public class ContentBasedCosinePredictor implements Predictor {
 			//Fetch the ratings for the users
 			Double rating = userProfileMap.get(userId).getValue(id);
 			
-			//Check the ratings greater than 4 are to be only considered 
+			//Check for ratings greater than 4, if yes , then only those are considered 
 			if (!isRatingGreaterThanFour) {
 				similarityWeight = simMap.getSimilarity(itemId, id);
 				similarityWeightSum += similarityWeight;
-				setofMoviesRatedbyUser++;
+				countofMoviesRatedbyUser++;
 			} else if (isRatingGreaterThanFour && rating >= 4.0) {
 				similarityWeight = simMap.getSimilarity(itemId, id);
 				similarityWeightSum += similarityWeight;
-				setofMoviesRatedbyUser++;
+				countofMoviesRatedbyUser++;
 			}
 
 		}
 
-		return (setofMoviesRatedbyUser > 0) ? new Double(similarityWeightSum / setofMoviesRatedbyUser) : null;
+		return (countofMoviesRatedbyUser > 0) ? new Double(similarityWeightSum / countofMoviesRatedbyUser) : null;
 	}
 }

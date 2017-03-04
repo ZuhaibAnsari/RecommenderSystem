@@ -53,12 +53,16 @@ public class DeviationsFromMeanPredictor implements Predictor {
 				Double rating = userProfileMap.get(userId).getValue(id);
 				
 				// The product of the similarity weight and the difference of ratings from the item mean value
+				
 				above += similarityWeight * (rating.doubleValue() - itemProfileMap.get(id).getMeanValue());
-				similarityWeightSum += similarityWeight;
+									
+				similarityWeightSum += similarityWeight;	
+				
 			}
 		}
-
+		
+		// Adding the item mean to the result in order to find the normalised predicted rating
 		return (similarityWeightSum > 0)
-				? userProfileMap.get(userId).getMeanValue() + new Double(above / Math.abs(similarityWeightSum)) : null;
+				?  + itemProfileMap.get(itemId).getMeanValue()+(new Double(above / similarityWeightSum)) : null;
 	}
 }

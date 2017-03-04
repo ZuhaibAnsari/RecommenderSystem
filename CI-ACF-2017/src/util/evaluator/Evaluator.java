@@ -7,15 +7,15 @@
 
 package util.evaluator;
 
-import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Iterator;
+import java.util.Map;
 
 import alg.CFAlgorithm;
-
+import util.MathsHelper;
 import util.RatingsPair;
 import util.UserItemPair;
 
@@ -81,7 +81,7 @@ public class Evaluator
 		if(counter == 0)
 			return null;
 		else
-			return new Double(Math.sqrt(squareError / counter));	
+			return new Double(MathsHelper.squareRoot(squareError / counter));	
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class Evaluator
 		if(counter == 0)
 			return null;
 		else
-			return new Double(Math.sqrt(squareError / counter));	
+			return new Double(MathsHelper.squareRoot(squareError / counter));	
 	}
 	
 	/**

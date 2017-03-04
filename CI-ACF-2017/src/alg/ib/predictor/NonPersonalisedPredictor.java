@@ -7,7 +7,7 @@ import profile.Profile;
 import similarity.SimilarityMap;
 
 /**
- * An class to compute the target user's predicted rating for the target item (item-based CF) using the non personalised technique.
+ * An class to compute the target user's predicted rating for the target item (item-based CF) using the non personalized technique.
 
  * @author Zuhaib
  *

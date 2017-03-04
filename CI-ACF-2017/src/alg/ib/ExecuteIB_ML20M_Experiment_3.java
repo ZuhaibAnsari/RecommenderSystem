@@ -12,8 +12,17 @@ import similarity.metric.SimilarityMetric;
 import util.evaluator.Evaluator;
 import util.reader.DatasetReader;
 
-public class ExecuteIB_ML20M_Experiment3 {
+/**
+ * This class is used to run the tasks for experiment 3
+ * @author Zuhaib
+ *
+ */
+public class ExecuteIB_ML20M_Experiment_3 {
 	
+	private static final String COSINE_SIMILARITY_USING_100_NEIGHBOURS = "Cosine_Similarity_Using_100_Neighbours";
+	private static final String PEARSON_CORRELATION_WITH_SIGNIFICANCE_WEIGHING_USING_100_NEIGHBOURS = "Pearson_Correlation_With_Significance_Weighing_Using_100_Neighbours";
+	private static final String PEARSON_CORRELATION_WITH_100_NEIGHBOURS = "Pearson_Correlation_With_100_Neighbours";
+
 	public static void main(String[] args) {
 
 		// set the paths and filenames of the item file, genome scores file,
@@ -23,34 +32,48 @@ public class ExecuteIB_ML20M_Experiment3 {
 		String trainFile = Constants.TRAIN_FILE_NAME;
 		String testFile = Constants.TEST_FILE_NAME;
 
-		// set the path and filename of the output file ...
-		String outputFile = Constants.OUTPUT_FILE_NAME;
-
 		//Generate predictions using Pearson correlation metric
+		// set the path and filename of the output file ...
+		String outputFile = Constants.OUTPUT_FILE_PATH+PEARSON_CORRELATION_WITH_100_NEIGHBOURS+Constants.OUTPUT_FILE_EXTENSION;
+		
 		generatePredictionAndCalculateRMSE(itemFile, itemGenomeScoresFile, trainFile, testFile, outputFile,
 				Constants.PEARSON_CORRELATION);
 
 		//Generate predictions using Pearson correlation metric with weighting
+		outputFile = Constants.OUTPUT_FILE_PATH+PEARSON_CORRELATION_WITH_SIGNIFICANCE_WEIGHING_USING_100_NEIGHBOURS+Constants.OUTPUT_FILE_EXTENSION;
+		
 		generatePredictionAndCalculateRMSE(itemFile, itemGenomeScoresFile, trainFile, testFile, outputFile,
 				Constants.PEARSON_CORRELATION_WITH_SIGNIFICANCE_WEIGHTING);
 		
 
 		//Generate predictions using Cosine metric
+		outputFile = Constants.OUTPUT_FILE_PATH+COSINE_SIMILARITY_USING_100_NEIGHBOURS+Constants.OUTPUT_FILE_EXTENSION;
+		
 		generatePredictionAndCalculateRMSE(itemFile, itemGenomeScoresFile, trainFile, testFile, outputFile,
 				Constants.COSINE);
 	}
 
+	
+	 
 	/**
+	 * This is the method which will be used to calcuate the Predictions and the RMSE using various similarity metrics which are selected
+	 * based on the value of the metric type  parameter
 	 * @param itemFile
+	 *            is the file containing the details of the items
 	 * @param itemGenomeScoresFile
+	 *            is the file with details of the genome scores
 	 * @param trainFile
+	 *            is the file with training data
 	 * @param testFile
+	 *            is the file with test data
 	 * @param outputFile
+	 *            is the file where the output will be stored for each execution
+	 * @param metricType is the paramter which is used to specify the metric type to be used 
 	 */
 	private static void generatePredictionAndCalculateRMSE(String itemFile, String itemGenomeScoresFile,
 			String trainFile, String testFile, String outputFile, String metricType) {
-		System.out.println("########################### Calculating Prediction using "+metricType+" ##########################");
 		
+		System.out.println("########################### Calculating Prediction using "+metricType+" ##########################");
 
 			// configure the item-based CF algorithm - set the predictor,
 			// neighbourhood and similarity metric ...
@@ -68,7 +91,6 @@ public class ExecuteIB_ML20M_Experiment3 {
 				metric = new CosineSimilarityMetric();
 
 			}
-			
 			
 			// Setting the neighbours to 100
 			Neighbourhood neighbourhood = new NearestNeighbourhood(100);

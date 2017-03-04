@@ -57,6 +57,6 @@ public class WeightedAveragePredictor implements Predictor {
 			}
 		}
 
-		return (similarityWeightSum > 0) ? new Double(above / Math.abs(similarityWeightSum)) : null;
+		return (similarityWeightSum > 0) ? new Double(above / similarityWeightSum) : null;
 	}
 }

@@ -44,8 +44,8 @@ public class NearestNeighbourhoodWithSimilarityThresholding extends Neighbourhoo
 				{
 					double sim = profile.getValue(id);
 				
-					//Limiting to those items which are less than or equal to the threshold value
-					if(sim>=threshold){
+					//Limiting to those items which are less than the threshold value
+					if(sim>threshold){
 						ss.add(new ScoredThingDsc(sim, id));
 					}
 											
